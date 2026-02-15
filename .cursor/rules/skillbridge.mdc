@@ -1,0 +1,44 @@
+---
+alwaysApply: true
+---
+
+# SkillBridge Project Rules
+
+## Auth
+- Single endpoint: `POST /auth/login` with `{ email, password, mode }`.
+- `mode: "LOGIN"` → returns JWT or 404 `USER_NOT_FOUND`.
+- `mode: "SIGNUP"` → creates user if missing, always returns JWT.
+- NO `/auth/register`. Frontend handles signup vs login via mode.
+- JWT stored in `localStorage` key `token`.
+- [authApi.js](mdc:src/api/authApi.js) has a single `authenticate()` function.
+- [apiClient.js](mdc:src/api/apiClient.js) attaches JWT via request interceptor and auto-redirects on 401.
+
+## Routing (React Router v6)
+- `/` → redirect to `/login` or `/dashboard` based on auth state.
+- `/login`, `/signup` → [AuthPage.jsx](mdc:src/components/AuthPage.jsx) (same component, mode from route).
+- `/dashboard` → [DashboardPage.jsx](mdc:src/components/DashboardPage.jsx) (protected).
+- `/learning/:learningId` → [LearningDetailPage.jsx](mdc:src/components/LearningDetailPage.jsx) (protected).
+- [PrivateRoute.jsx](mdc:src/components/PrivateRoute.jsx) guards protected routes.
+- Auth pages redirect to `/dashboard` if already authenticated.
+
+## Data model
+- **Learning** → many **Applied Skills** (one-to-many).
+- Learning fields: `id, title, status (PENDING/APPLIED), createdAt`.
+- Applied Skill fields: `id, description, type (PROJECT/TASK/BLOG/WORK), createdAt`.
+
+## API endpoints
+- `GET /learning` — list all learning items
+- `GET /learning/:id` — single learning
+- `POST /learning` — create (`{ title }`)
+- `PUT /learning/:id` — update (`{ title }`)
+- `DELETE /learning/:id` — delete learning
+- `GET /learning/:id/apply` — list applied skills
+- `POST /learning/:id/apply` — create (`{ description, type }`)
+- `DELETE /learning/:id/apply/:outcomeId` — delete applied skill
+- `GET /dashboard` — returns `{ totalLearning, appliedCount, pendingCount }`
+
+## UI direction
+- Calm, aesthetic, card-based layout.
+- Color palette: teal (`#5f9ea0`), sage green, neutral gray.
+- Soft shadows, rounded corners (`12px`), plenty of whitespace.
+- No CSS framework. Custom CSS in [index.css](mdc:src/index.css).

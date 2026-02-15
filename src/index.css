@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base resets ── */
+@layer base {
+  body {
+    @apply bg-page text-gray-800 font-sans antialiased;
+  }
+  #root {
+    @apply min-h-screen;
+  }
+}
+
+/* ── Reusable components ── */
+@layer components {
+  /* Progress bar */
+  .progress-track {
+    @apply h-2 rounded-full bg-gray-100 overflow-hidden;
+  }
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500 ease-out;
+    background: linear-gradient(90deg, #5f9ea0, #82bfc0);
+  }
+
+  /* Status pills */
+  .pill {
+    @apply inline-flex items-center text-[0.68rem] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full;
+  }
+  .pill-pending {
+    @apply bg-amber-50 text-amber-600;
+  }
+  .pill-applied {
+    @apply bg-sage-100 text-sage-600;
+  }
+  .pill-type {
+    @apply bg-brand-50 text-brand-600;
+  }
+
+  /* Modal overlay */
+  .modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal-card {
+    @apply bg-surface rounded-2xl shadow-hover w-full max-w-md p-8;
+    animation: slideUp 0.25s ease-out;
+  }
+
+  /* Card base */
+  .card {
+    @apply bg-surface rounded-2xl shadow-card;
+  }
+
+  /* Focus card (Today's focus items) */
+  .focus-item {
+    @apply bg-surface rounded-xl border border-gray-100 p-4 cursor-pointer
+           hover:shadow-soft hover:border-brand-200 transition-all duration-200;
+  }
+}
